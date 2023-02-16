@@ -398,6 +398,12 @@ namespace Sharphound
                         ldapOptions.Password = options.LDAPPassword;
                     }
 
+                    if (options.DoLocalAdminSessionEnum && (options.LocalAdminPassword == null || options.LocalAdminUsername == null) ||
+                        !options.DoLocalAdminSessionEnum && options.LocalAdminPassword != null && options.LocalAdminUsername != null )
+                    {
+                        logger.LogError("You must use the --doLocalAdminSessionEnum switch in combination with --LocalAdminUsername and --LocalAdminPassword!");
+                        return;
+                    }
                     
                     IContext context = new BaseContext(logger, ldapOptions, flags)
                     {
